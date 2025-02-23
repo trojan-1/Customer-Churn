@@ -21,4 +21,4 @@ if st.button("Predict"):
   prediction = model.predict([[CustServCalls, DayMins, DataUsage]])[0].round(2)
 # Convert Predictions to Labels
   prediction_labels = pd.Series(prediction).map({0: "not leave", 1: "leave"})
-st.write("The customer is likely to", prediction_labels, "in the coming quarter")
+st.write("The customer is likely to", prediction_labels)
