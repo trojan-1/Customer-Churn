@@ -12,8 +12,8 @@ st.title("Customer Churn")
 
 # input widget for getting user values for X (feature matrix value)
 CustServCalls = st.slider("CustServCalls", min_value=0, max_value=9, value=3)
-DayMins = st.slider("DayMins", min_value=0, max_value=350.8, value=70)
-DataUsage = st.slider("DataUsage", min_value=0, max_value=5.4, value=3)
+DayMins = st.slider("DayMins", min_value=0, max_value=351, value=70)
+DataUsage = st.slider("DataUsage", min_value=0, max_value=6, value=3)
 
 # After selesting CustServCalls, DayMins, DataUsage the user then submits the price value
 if st.button("Predict"):
