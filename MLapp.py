@@ -1,24 +1,44 @@
-
 import pickle
 import streamlit as st
 import pandas as pd
+import numpy as np
 
-# load the file that contains the model (model.pkl)
+# Load the trained model
 with open("model.pkl", "rb") as f:
-  model = pickle.load(f)
+    model = pickle.load(f)
 
-# give the Streamlit app page a title
-st.title("Customer Churn")
+# Load the scaler (if used during training)
+try:
+    with open("scaler.pkl", "rb") as f:
+        scaler = pickle.load(f)
+    use_scaler = True
+except FileNotFoundError:
+    scaler = None
+    use_scaler = False
 
-# input widget for getting user values for X (feature matrix value)
-CustServCalls = st.slider("CustServCalls", min_value=0, max_value=9, value=3)
-DayMins = st.slider("DayMins", min_value=0, max_value=351, value=70)
-DataUsage = st.slider("DataUsage", min_value=0, max_value=6, value=3)
+# Streamlit app title
+st.title("Customer Churn Prediction")
 
-# After selesting CustServCalls, DayMins, DataUsage the user then submits the price value
+# Input widgets for user input
+CustServCalls = st.slider("Customer Service Calls", min_value=0, max_value=9, value=3)
+DayMins = st.slider("Day Minutes Used", min_value=0, max_value=351, value=70)
+DataUsage = st.slider("Data Usage (GB)", min_value=0, max_value=6, value=3)
+
+# Convert inputs into a DataFrame (matching model feature names)
+input_data = np.array([[CustServCalls, DayMins, DataUsage]])
+
+# Apply the same scaling used in training
+if use_scaler:
+    input_data = scaler.transform(input_data)
+
+# Prediction only when button is clicked
 if st.button("Predict"):
-  # take the price value, and format the value the right way
-  prediction = model.predict([[CustServCalls, DayMins, DataUsage]])[0].round(2)
-# Convert Predictions to Labels
-  prediction_labels = pd.Series(prediction).map({0: "not leave", 1: "leave"})[0]
-st.write("The customer is likely to", prediction_labels, "in the coming quarter")
+    prediction = model.predict(input_data)[0]  # Get prediction
+
+    # Convert to human-readable output
+    prediction_labels = {0: "not leave", 1: "leave"}
+    result = prediction_labels.get(prediction, "Unknown")
+
+    # Display result
+    st.write(f"📌 The customer is likely to **{result}** in the coming quarter.")
+
