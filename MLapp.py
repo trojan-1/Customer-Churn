@@ -20,5 +20,5 @@ if st.button("Predict"):
   # take the price value, and format the value the right way
   prediction = model.predict([[CustServCalls, DayMins, DataUsage]])[0].round(2)
 # Convert Predictions to Labels
- prediction_labels = pd.Series(prediction).map({0: "not leave", 1: "leave"})
+  prediction_labels = pd.Series(prediction).map({0: "not leave", 1: "leave"})
 st.write("The customer is likely to", prediction, "in the coming quarter")
