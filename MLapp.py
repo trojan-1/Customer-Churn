@@ -21,11 +21,11 @@ st.title("Customer Churn Prediction")
 
 # Input widgets for user input
 CustServCalls = st.slider("Customer Service Calls", min_value=0, max_value=9, value=3)
-DayMins = st.slider("Day Minutes Used", min_value=0, max_value=351, value=70)
+DayMins = st.slider("Monthly Charge", min_value=0, max_value=351, value=70)
 DataUsage = st.slider("Data Usage (GB)", min_value=0, max_value=6, value=3)
 
 # Convert inputs into a DataFrame (matching model feature names)
-input_data = np.array([[CustServCalls, DayMins, DataUsage]])
+input_data = np.array([[CustServCalls, MonthlyCharge, DataUsage]])
 
 # Apply the same scaling used in training
 if use_scaler:
