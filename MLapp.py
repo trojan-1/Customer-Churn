@@ -36,7 +36,7 @@ if st.button("Predict"):
     prediction = model.predict(input_data)[0]  # Get prediction
 
     # Convert to human-readable output
-    prediction_labels = {0: "not leave", 1: "leave"}
+    prediction_labels = {0: "stay", 1: "leave"}
     result = prediction_labels.get(prediction, "Unknown")
 
     # Display result
